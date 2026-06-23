@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reclama Virtual · ¡Reclamo enviado!</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="assets/js/tailwind.config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+</head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col overflow-x-hidden">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full bg-secondary shadow-md">
+  <a href="index.html" class="flex items-center gap-3">
+    <img alt="Indecopi" class="h-9 w-auto object-contain brightness-0 invert" src="https://res.cloudinary.com/dwxiuavqd/image/upload/v1781037186/logo-indecopi-38299_qyqy5b.png"/>
+    <span class="hidden sm:block text-on-primary font-bold text-headline-md border-l border-white/25 pl-3">Reclama Virtual</span>
+  </a>
+  <nav class="hidden md:flex gap-8 items-center">
+    <a class="text-label-md text-on-primary/80 hover:text-tertiary transition-colors" href="#">Preguntas Frecuentes</a>
+    <a class="text-label-md text-on-primary/80 hover:text-tertiary transition-colors" href="#">Guía de Trámites</a>
+    <button class="bg-tertiary text-on-tertiary px-6 py-2 rounded-full font-bold hover:brightness-110 active:scale-95 transition-all" onclick="toggleChat()">Ayuda en vivo</button>
+  </nav>
+</header>
+
+<main class="flex-grow flex flex-col items-center justify-center py-16 px-container-padding relative overflow-hidden">
+  <div class="max-w-4xl w-full text-center flex flex-col items-center space-y-8">
+
+    <!-- Check animado -->
+    <div class="check-anim w-32 h-32 md:w-44 md:h-44 bg-success rounded-full flex items-center justify-center shadow-lg mb-2">
+      <span class="material-symbols-outlined text-white text-7xl md:text-8xl fill">check_circle</span>
+    </div>
+
+    <div class="space-y-4">
+      <h1 class="font-display-lg text-[34px] md:text-display-lg text-primary leading-tight">¡Tu reclamo fue enviado!</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Tu reclamo ha sido registrado exitosamente. Hemos guardado cada detalle para asegurar que sea atendido con la prioridad que mereces.</p>
+    </div>
+
+    <!-- Nº de expediente -->
+    <div class="bg-white p-8 md:p-10 rounded-xl shadow-xl border-2 border-primary/10 w-full md:w-2/3 hover:scale-105 transition-transform duration-300">
+      <p class="text-label-uppercase text-secondary/60 uppercase tracking-widest mb-2">Número de expediente</p>
+      <div class="font-display-lg text-display-lg text-primary flex items-center justify-center gap-3 flex-wrap">
+        <span class="material-symbols-outlined text-secondary text-5xl">receipt_long</span>
+        <span id="expediente">RC-2026-00000</span>
+      </div>
+      <p class="text-helper-text text-on-surface-variant mt-3">Guarda este número para hacer seguimiento a tu caso.</p>
+    </div>
+
+    <!-- Próximos pasos -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-4 text-left">
+      <div class="bg-white p-8 rounded-xl shadow-sm flex flex-col items-start border-b-4 border-tertiary">
+        <span class="material-symbols-outlined text-tertiary text-4xl mb-4">fact_check</span>
+        <h3 class="font-title-md text-title-md text-secondary mb-2">1. Revisión</h3>
+        <p class="text-helper-text text-on-surface-variant">Nuestro equipo analizará tu caso en un plazo máximo de 30 días hábiles.</p>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow-sm flex flex-col items-start border-b-4 border-primary">
+        <span class="material-symbols-outlined text-primary text-4xl mb-4">mail</span>
+        <h3 class="font-title-md text-title-md text-secondary mb-2">2. Notificación</h3>
+        <p class="text-helper-text text-on-surface-variant">Recibirás actualizaciones directamente en tu correo electrónico registrado.</p>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow-sm flex flex-col items-start border-b-4 border-secondary">
+        <span class="material-symbols-outlined text-secondary text-4xl mb-4">track_changes</span>
+        <h3 class="font-title-md text-title-md text-secondary mb-2">3. Seguimiento</h3>
+        <p class="text-helper-text text-on-surface-variant">Consulta el estado en tiempo real con tu número de expediente. Tel.: 224-7777.</p>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="flex flex-col md:flex-row gap-6 w-full md:w-auto mt-8">
+      <button onclick="descargarComprobante()" class="bg-primary text-white h-16 px-10 rounded-lg font-bold text-lg flex items-center justify-center gap-3 hover:brightness-110 hover:shadow-lg transition-all active:scale-95 group">
+        <span class="material-symbols-outlined group-hover:-translate-y-1 transition-transform">download</span> Descargar comprobante
+      </button>
+      <button onclick="irA('index.html')" class="bg-white border-2 border-primary text-primary h-16 px-10 rounded-lg font-bold text-lg flex items-center justify-center gap-3 hover:bg-primary/5 transition-all active:scale-95 group">
+        <span class="material-symbols-outlined group-hover:rotate-12 transition-transform">home</span> Volver al inicio
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="w-full py-8 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 bg-secondary text-on-primary border-t-4 border-tertiary">
+  <p class="text-label-sm text-on-primary/70">© 2026 Indecopi · Portal del Ciudadano</p>
+  <div class="flex gap-6 text-label-sm"><a class="text-on-primary/70 hover:text-tertiary" href="#">Privacidad</a><a class="text-on-primary/70 hover:text-tertiary" href="#">Términos</a><a class="text-on-primary/70 hover:text-tertiary" href="#">Accesibilidad</a></div>
+</footer>
+
+<!-- CHAT -->
+<div class="fixed bottom-8 right-8 z-[60] flex items-end gap-4 pointer-events-none">
+  <div class="hidden glass-card p-4 rounded-lg shadow-lg border border-primary/20 max-w-xs pointer-events-auto" id="chat-window">
+    <p class="text-helper-text text-on-surface">¡Lo lograste! He guardado una copia de tu número de expediente para ti. ✨</p>
+  </div>
+  <button class="w-16 h-16 bg-tertiary rounded-full flex items-center justify-center shadow-2xl border-4 border-white cursor-pointer hover:scale-110 active:scale-95 transition-transform pointer-events-auto" onclick="toggleChat()" aria-label="Abrir chat de ayuda">
+    <span class="material-symbols-outlined text-on-tertiary text-4xl fill">smart_toy</span>
+  </button>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

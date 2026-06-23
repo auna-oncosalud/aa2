@@ -1,0 +1,100 @@
+/* ============================================================
+   Reclama Virtual — INDECOPI
+   Utilidades compartidas (lo que no cubre Tailwind)
+   ============================================================ */
+
+:root {
+  --maroon: #c40043;
+  --navy: #001e40;
+  --orange: #ff8934;
+}
+
+body {
+  font-family: 'Public Sans', sans-serif;
+}
+
+/* Iconos Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Sombras suaves */
+.soft-card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 5, 17, 0.06); }
+.custom-shadow    { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+
+/* Hover con elevación */
+.hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.hover-lift:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px -5px rgba(196, 0, 67, 0.18);
+}
+
+/* Anillo de foco accesible (4px) */
+.glow-focus:focus-within { box-shadow: 0 0 0 4px rgba(255, 137, 52, 0.4); }
+
+/* Selección activa de tarjetas/toggles.
+   !important para ganarle a las utilidades de Tailwind (el CDN Play
+   inyecta su <style> después de este archivo en el <head>). */
+.active-selection {
+  border: 3px solid var(--maroon) !important;
+  background-color: #fff1f2 !important;
+  box-shadow: 0 4px 16px rgba(196, 0, 67, 0.12);
+}
+
+/* Ocultar scrollbar (pasos horizontales) */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Burbuja de chat */
+.chat-bubble { border-radius: 24px 24px 4px 24px; }
+
+/* Tarjeta de cristal */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- Animaciones ---------- */
+.animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.check-anim { animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+@keyframes bounceIn {
+  0%   { transform: scale(0);   opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.modal-in { animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Confeti (pantalla de éxito) */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Transición genérica de pantallas */
+.fade-section { animation: fadeIn 0.4s ease-out forwards; }

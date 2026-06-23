@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reclama Virtual · Paso 3 de 3</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="assets/js/tailwind.config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full bg-secondary shadow-md">
+  <a href="index.html" class="flex items-center gap-3">
+    <img alt="Indecopi" class="h-9 w-auto object-contain brightness-0 invert" src="https://res.cloudinary.com/dwxiuavqd/image/upload/v1781037186/logo-indecopi-38299_qyqy5b.png"/>
+    <span class="hidden sm:block text-on-primary font-bold text-headline-md border-l border-white/25 pl-3">Reclama Virtual</span>
+  </a>
+  <nav class="hidden md:flex gap-8 items-center">
+    <a class="text-label-md text-on-primary/80 hover:text-tertiary transition-colors" href="#">Preguntas Frecuentes</a>
+    <a class="text-label-md text-on-primary/80 hover:text-tertiary transition-colors" href="#">Guía de Trámites</a>
+    <button class="bg-tertiary text-on-tertiary px-6 py-2 rounded-full font-bold hover:brightness-110 active:scale-95 transition-all" onclick="toggleChat()">Ayuda en vivo</button>
+  </nav>
+</header>
+
+<!-- STEPPER -->
+<div class="bg-surface-container border-b border-outline-variant">
+  <div class="max-w-4xl mx-auto flex w-full overflow-x-auto hide-scrollbar text-label-md">
+    <div class="flex-1 min-w-[160px] h-12 bg-surface-container-high text-primary flex items-center justify-center gap-2 px-4"><span class="material-symbols-outlined text-primary fill">check_circle</span><span class="whitespace-nowrap">Cuéntanos tu reclamo</span></div>
+    <div class="flex-1 min-w-[160px] h-12 bg-surface-container-high text-primary flex items-center justify-center gap-2 px-4"><span class="material-symbols-outlined text-primary fill">check_circle</span><span class="whitespace-nowrap">Identifica al reclamado</span></div>
+    <div class="flex-1 min-w-[160px] h-12 bg-primary text-on-primary flex items-center justify-center gap-2 px-4"><span class="bg-white text-primary w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span><span class="whitespace-nowrap">Completa tus datos</span></div>
+  </div>
+</div>
+
+<main class="max-w-4xl mx-auto px-margin-mobile md:px-6 py-stack-lg fade-section">
+
+  <!-- Header card -->
+  <div class="bg-white rounded-xl p-6 md:p-8 soft-card-shadow mb-8 border-l-8 border-primary relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16"></div>
+    <div class="flex items-start gap-6">
+      <div class="p-4 bg-primary rounded-2xl text-on-primary shadow-lg"><span class="material-symbols-outlined text-4xl">how_to_reg</span></div>
+      <div>
+        <div class="flex items-center gap-2 mb-1"><span class="material-symbols-outlined text-tertiary text-sm fill">star</span><span class="text-label-uppercase font-bold text-tertiary">¡ÚLTIMO PASO!</span></div>
+        <h2 class="font-headline-lg text-headline-lg text-secondary mb-2">Tus datos personales</h2>
+        <p class="text-body-lg text-on-surface-variant">Solo un paso más. ¡Ya casi terminamos!</p>
+      </div>
+    </div>
+    <div class="mt-8 flex items-center gap-4"><span class="text-label-md font-bold text-primary">95% completado</span><div class="flex-grow h-3 bg-surface-container-high rounded-full overflow-hidden"><div class="h-full bg-primary w-[95%] transition-all duration-1000"></div></div></div>
+  </div>
+
+  <form class="space-y-8" onsubmit="event.preventDefault(); enviarReclamo();">
+
+    <!-- ¿Quién presenta? -->
+    <div class="bg-white rounded-xl p-6 md:p-8 soft-card-shadow border border-outline-variant">
+      <div class="flex items-center gap-3 mb-6"><span class="material-symbols-outlined text-primary">person_search</span><h3 class="font-title-md text-title-md text-secondary">¿Quién presenta el reclamo?</h3></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-toggle-group="reclamanteTipo" data-default="natural">
+        <button type="button" data-toggle-val="natural" class="flex items-center justify-center gap-3 h-16 border-2 border-transparent bg-surface-container-low text-on-surface rounded-lg font-bold transition-all hover:shadow-md"><span class="material-symbols-outlined">person</span> Como persona natural</button>
+        <button type="button" data-toggle-val="empresa" class="flex items-center justify-center gap-3 h-16 border-2 border-transparent bg-surface-container-low text-on-surface rounded-lg font-bold transition-all hover:shadow-md"><span class="material-symbols-outlined">business</span> Como empresa</button>
+      </div>
+    </div>
+
+    <!-- Contacto -->
+    <div class="bg-white rounded-xl p-6 md:p-8 soft-card-shadow border border-outline-variant">
+      <div class="flex items-center gap-3 mb-8"><span class="material-symbols-outlined text-primary">contact_mail</span><h3 class="font-title-md text-title-md text-secondary">Información de contacto</h3></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-secondary">Tipo y número de documento <span class="text-primary">*</span></label>
+          <p class="text-helper-text text-on-surface-variant">Ejemplo: DNI (8 números)</p>
+          <div class="flex gap-2">
+            <select data-k="docTipo" class="w-32 h-input-height-lg rounded-lg border-2 border-outline-variant px-3 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none bg-white"><option>DNI</option><option>CE</option><option>Pasaporte</option></select>
+            <input data-k="docNum" type="text" placeholder="Ej: 45678912" class="flex-grow h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-secondary">Nombres completos <span class="text-primary">*</span></label>
+          <p class="text-helper-text text-on-surface-variant">Como figura en tu documento oficial</p>
+          <input data-k="nombres" type="text" placeholder="Ej: Juan Alberto" required class="w-full h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-secondary">Apellido paterno <span class="text-primary">*</span></label>
+          <input data-k="apPaterno" type="text" placeholder="Ej: García" required class="w-full h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-secondary">Apellido materno <span class="text-primary">*</span></label>
+          <input data-k="apMaterno" type="text" placeholder="Ej: Rojas" required class="w-full h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+        </div>
+        <div class="flex flex-col gap-2 md:col-span-2">
+          <label class="font-bold text-secondary">Dirección <span class="text-primary">*</span></label>
+          <input data-k="direccion" type="text" placeholder="Ej: Jr. Las Flores 456, Lince, Lima" required class="w-full h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-secondary">Correo electrónico <span class="text-primary">*</span></label>
+          <p class="text-helper-text text-on-surface-variant">Donde recibirás las notificaciones legales</p>
+          <input data-k="correo" type="email" placeholder="Ej: juan.garcia@email.com" required class="w-full h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-bold text-secondary">Celular <span class="text-primary">*</span></label>
+          <p class="text-helper-text text-on-surface-variant">Para avisarte por mensaje sobre tu reclamo</p>
+          <input data-k="celular" type="tel" placeholder="Ej: 987 654 321" required class="w-full h-input-height-lg rounded-lg border-2 border-outline-variant px-4 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accesibilidad -->
+    <div class="bg-surface-container-low rounded-xl p-6 md:p-8 soft-card-shadow border border-dashed border-primary/30">
+      <div class="flex items-center gap-3 mb-6"><span class="material-symbols-outlined text-primary">accessibility_new</span><h3 class="font-title-md text-title-md text-secondary">Información adicional</h3></div>
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 bg-white rounded-2xl">
+        <div><p class="font-bold text-secondary">¿Necesitas ayuda adicional por alguna discapacidad?</p><p class="text-helper-text text-on-surface-variant">Habilitaremos herramientas de apoyo durante el proceso.</p></div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input data-k="discapacidad" type="checkbox" class="sr-only peer"/>
+          <div class="w-14 h-8 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-primary"></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Teaser asistente -->
+    <div class="flex gap-4 p-6 bg-tertiary/10 rounded-2xl items-center border border-tertiary/20">
+      <div class="w-12 h-12 flex-shrink-0 bg-white rounded-full flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-tertiary fill">smart_toy</span></div>
+      <p class="text-on-tertiary-container font-body-md"><strong>Reclama Virtual dice:</strong> "Tus datos están seguros con nosotros, solo los usaremos para contactarte sobre este caso."</p>
+    </div>
+
+    <!-- Acciones -->
+    <div class="pt-2 flex flex-col md:flex-row justify-end items-center gap-4">
+      <button type="button" onclick="irA('paso2.html')" class="text-secondary font-bold px-8 h-16 rounded-lg hover:bg-secondary/5 transition-all w-full md:w-auto flex items-center justify-center gap-2"><span class="material-symbols-outlined">arrow_back</span> Regresar al paso anterior</button>
+      <button type="submit" class="bg-primary text-on-primary w-full md:w-auto h-input-height-lg px-12 rounded-lg font-bold text-lg shadow-xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2"><span class="material-symbols-outlined fill">send</span> Enviar reclamo ahora</button>
+    </div>
+  </form>
+</main>
+
+<!-- FOOTER -->
+<footer class="w-full py-8 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 bg-secondary text-on-primary border-t-4 border-tertiary">
+  <p class="text-label-sm text-on-primary/70">© 2026 Indecopi · Portal del Ciudadano</p>
+  <div class="flex gap-6 text-label-sm"><a class="text-on-primary/70 hover:text-tertiary" href="#">Privacidad</a><a class="text-on-primary/70 hover:text-tertiary" href="#">Términos</a><a class="text-on-primary/70 hover:text-tertiary" href="#">Accesibilidad</a></div>
+</footer>
+
+<!-- CHAT -->
+<div class="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-4 w-full max-w-[380px] pointer-events-none">
+  <div class="hidden bg-secondary text-on-secondary p-6 shadow-xl chat-bubble border border-white/10 pointer-events-auto" id="chat-window">
+    <div class="flex items-start gap-4">
+      <div class="bg-primary p-2 rounded-full flex-shrink-0"><span class="material-symbols-outlined text-white fill">smart_toy</span></div>
+      <div><p class="font-bold text-lg mb-2">¡Casi terminas!</p><p class="text-body-md opacity-90 leading-relaxed">Revisa que tu correo y celular estén correctos: ahí recibirás las novedades de tu caso.</p></div>
+      <button class="text-white/50 hover:text-white" onclick="toggleChat()" aria-label="Cerrar chat"><span class="material-symbols-outlined">close</span></button>
+    </div>
+  </div>
+  <button class="bg-tertiary text-on-tertiary w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border-4 border-white pointer-events-auto" onclick="toggleChat()" aria-label="Abrir chat de ayuda"><span class="material-symbols-outlined text-3xl">forum</span></button>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

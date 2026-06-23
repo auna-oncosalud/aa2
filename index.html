@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Indecopi · Reclama Virtual</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="assets/js/tailwind.config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+</head>
+<body class="bg-surface-soft text-on-surface font-body-md overflow-x-hidden">
+
+<!-- ============ MODAL TUTORIAL ============ -->
+<div class="fixed inset-0 z-[100] bg-secondary/70 backdrop-blur-sm items-center justify-center p-4" id="modal-overlay" style="display:none">
+  <div class="modal-in bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
+    <div class="flex items-center justify-between bg-primary text-on-primary px-6 py-4">
+      <h3 class="font-headline-md text-headline-md font-bold flex items-center gap-2">
+        <span class="material-symbols-outlined fill">smart_display</span> ¿Cómo hago mi reclamo?
+      </h3>
+      <button class="hover:bg-white/15 rounded-full p-1 transition-colors" onclick="closeModal()" aria-label="Cerrar">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="aspect-video bg-black">
+      <iframe class="w-full h-full" src="https://www.youtube.com/embed/2NeqxeFZE-g" title="Tutorial Reclama Virtual" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="p-6 flex flex-col sm:flex-row gap-3 justify-end">
+      <button class="px-6 py-3 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-low transition-colors" onclick="closeModal()">Omitir</button>
+      <button class="px-8 py-3 rounded-lg font-bold bg-primary text-on-primary shadow-lg hover:brightness-110 active:scale-95 transition-all" onclick="closeModal()">Entendido, comenzar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="bg-secondary shadow-md sticky top-0 z-50 w-full transition-all" id="topbar">
+  <nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto">
+    <div class="flex items-center gap-3">
+      <img alt="Indecopi" class="h-9 md:h-10 w-auto object-contain brightness-0 invert" src="https://res.cloudinary.com/dwxiuavqd/image/upload/v1781037186/logo-indecopi-38299_qyqy5b.png"/>
+      <span class="hidden sm:block text-on-primary font-bold text-headline-md border-l border-white/25 pl-3">Reclama Virtual</span>
+    </div>
+    <div class="hidden md:flex items-center gap-gutter">
+      <a class="text-tertiary font-bold border-b-2 border-tertiary pb-1 text-label-md" href="#categorias">Empezar</a>
+      <a class="text-on-primary/80 text-label-md hover:text-tertiary transition-colors" href="#confianza">Tu seguridad</a>
+      <a class="text-on-primary/80 text-label-md hover:text-tertiary transition-colors" href="#guia">Cómo funciona</a>
+    </div>
+    <div class="flex items-center gap-stack-sm">
+      <button class="hidden sm:block text-on-primary/90 text-label-md px-4 py-2 hover:text-tertiary transition-colors" onclick="openModal()">Ver tutorial</button>
+      <button class="bg-tertiary text-on-tertiary text-label-md px-6 py-2.5 rounded-full font-bold shadow-sm hover:brightness-110 active:scale-95 transition-all" onclick="document.getElementById('categorias').scrollIntoView({behavior:'smooth'})">Iniciar reclamo</button>
+    </div>
+  </nav>
+</header>
+
+<main class="w-full">
+  <!-- ============ HERO ============ -->
+  <section class="relative bg-surface-lowest pt-stack-lg pb-stack-lg overflow-hidden">
+    <div class="absolute top-0 right-0 w-1/3 h-full opacity-5 pointer-events-none">
+      <span class="material-symbols-outlined text-[300px] text-primary rotate-12 fill">support_agent</span>
+    </div>
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+      <div class="flex flex-col md:flex-row items-center gap-stack-lg">
+        <div class="md:w-3/5 text-center md:text-left">
+          <span class="inline-block bg-primary-container text-primary font-bold text-label-md px-4 py-1 rounded-full mb-stack-sm">Atención al ciudadano</span>
+          <h1 class="font-display-lg text-[34px] leading-tight md:text-display-lg text-primary mb-stack-md">¡Hola! Estamos aquí para ayudarte con tu reclamo</h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-stack-md leading-relaxed mx-auto md:mx-0">No estás solo. En Indecopi protegemos tus derechos como consumidor de manera sencilla, segura y transparente.</p>
+          <div class="flex flex-wrap justify-center md:justify-start gap-4">
+            <button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold text-headline-md shadow-lg hover:shadow-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-2" onclick="document.getElementById('categorias').scrollIntoView({behavior:'smooth'})">
+              <span class="material-symbols-outlined fill">add_box</span> Empezar reclamo
+            </button>
+            <button class="bg-surface-container-high text-on-surface px-8 py-4 rounded-lg font-bold text-headline-md border border-outline-variant hover:bg-surface-variant transition-all flex items-center gap-2" onclick="openModal()">
+              <span class="material-symbols-outlined">play_circle</span> Ver video tutorial
+            </button>
+          </div>
+        </div>
+        <div class="hidden md:block md:w-2/5">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-tertiary/20 rounded-full blur-3xl"></div>
+            <img class="relative z-10 rounded-[2rem] shadow-2xl border-8 border-white w-full h-[400px] object-cover bg-primary/10" alt="Persona usando una tablet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQm8mLbFMls8BkmaExDpmMz8zq7w4WQwy2sUldaB2A8mf17JmFsZCdBaMXJeenzDztEjUtkcrLS-axXc0JAmma-YOwwU6eCngX5_USXn7wVKcA4zgSb2N_-PZJl47FFAv7YfXD1H0F30MJSa-P2uChN7Lf6Ac9bwcH7mvqoVsB-KqZFwfAnad7GDV7ww-ay3bOsNNh8RE4TWZyX2NRO2832d4iL5oqa4BXO59_yDk6j2qHb3onrI7TsuQCbHqEJ4JxRIiVT_MnvRim" onerror="this.removeAttribute('src')"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUÍA AMIGABLE ============ -->
+  <section id="guia" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop -mt-12 relative z-20">
+    <div class="border-l-8 border-tertiary p-stack-md md:p-8 rounded-xl soft-card-shadow bg-white/95 backdrop-blur-sm">
+      <div class="flex flex-col md:flex-row items-start gap-stack-md">
+        <div class="bg-tertiary/20 p-4 rounded-full flex-shrink-0">
+          <span class="material-symbols-outlined text-tertiary text-4xl fill">info</span>
+        </div>
+        <div>
+          <h3 class="font-headline-md text-headline-md text-secondary mb-2">El proceso es muy sencillo</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mb-6">Para que tu reclamo sea exitoso, solo necesitas estos 3 pasos:</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-transport-teal fill">check_circle</span><span class="text-label-md">Identifica a la empresa</span></div>
+            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-transport-teal fill">check_circle</span><span class="text-label-md">Ten tu boleta o recibo a la mano</span></div>
+            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-transport-teal fill">check_circle</span><span class="text-label-md">Cuéntanos qué pasó</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORÍAS ============ -->
+  <section id="categorias" class="py-stack-lg max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop scroll-mt-24">
+    <div class="text-center mb-stack-lg">
+      <h2 class="font-headline-lg text-headline-lg text-primary mb-2">¿Sobre qué quieres reclamar?</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant">Elige la categoría que mejor describa tu problema</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-gutter">
+      <button onclick="pickCat('Servicios Bancarios y Financieros','account_balance')" class="flex flex-col items-center p-8 bg-surface-lowest rounded-[1.75rem] soft-card-shadow hover-lift group border-2 border-transparent hover:border-primary/30 transition-all">
+        <div class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center mb-4 transition-colors"><span class="material-symbols-outlined text-primary text-4xl fill">account_balance</span></div>
+        <span class="font-headline-md text-headline-md text-secondary text-center">Bancos y Finanzas</span>
+      </button>
+      <button onclick="pickCat('Transporte','directions_bus')" class="flex flex-col items-center p-8 bg-surface-lowest rounded-[1.75rem] soft-card-shadow hover-lift group border-2 border-transparent hover:border-transport-teal/30 transition-all">
+        <div class="w-20 h-20 rounded-full bg-transport-teal/10 flex items-center justify-center mb-4 transition-colors"><span class="material-symbols-outlined text-transport-teal text-4xl fill">directions_bus</span></div>
+        <span class="font-headline-md text-headline-md text-secondary text-center">Transporte</span>
+      </button>
+      <button onclick="pickCat('Colegios y Educación','school')" class="flex flex-col items-center p-8 bg-surface-lowest rounded-[1.75rem] soft-card-shadow hover-lift group border-2 border-transparent hover:border-education-purple/30 transition-all">
+        <div class="w-20 h-20 rounded-full bg-education-purple/10 flex items-center justify-center mb-4 transition-colors"><span class="material-symbols-outlined text-education-purple text-4xl fill">school</span></div>
+        <span class="font-headline-md text-headline-md text-secondary text-center">Colegios</span>
+      </button>
+      <button onclick="pickCat('Llamadas y publicidad no deseada','phonelink_ring')" class="flex flex-col items-center p-8 bg-surface-lowest rounded-[1.75rem] soft-card-shadow hover-lift group border-2 border-transparent hover:border-error/30 transition-all">
+        <div class="w-20 h-20 rounded-full bg-error-container flex items-center justify-center mb-4 transition-colors"><span class="material-symbols-outlined text-error text-4xl fill">phonelink_ring</span></div>
+        <span class="font-headline-md text-headline-md text-secondary text-center">Llamadas no deseadas</span>
+      </button>
+      <button onclick="pickCat('Otros','more_horiz')" class="flex flex-col items-center p-8 bg-surface-lowest rounded-[1.75rem] soft-card-shadow hover-lift group border-2 border-transparent hover:border-outline-variant transition-all">
+        <div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center mb-4 transition-colors"><span class="material-symbols-outlined text-on-surface-variant text-4xl fill">more_horiz</span></div>
+        <span class="font-headline-md text-headline-md text-secondary text-center">Otros</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ CONFIANZA ============ -->
+  <section id="confianza" class="bg-surface-container-low py-stack-lg scroll-mt-24">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <h2 class="font-headline-md text-headline-md text-primary text-center mb-stack-lg">Tu seguridad es nuestra prioridad</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+        <div class="flex items-center gap-stack-md">
+          <div class="bg-secondary p-4 rounded-2xl"><span class="material-symbols-outlined text-on-secondary text-3xl">verified_user</span></div>
+          <div><h4 class="font-headline-md text-headline-md text-secondary">Datos Protegidos</h4><p class="font-body-md text-body-md text-on-surface-variant">Manejamos tu información con total confidencialidad.</p></div>
+        </div>
+        <div class="flex items-center gap-stack-md">
+          <div class="bg-secondary p-4 rounded-2xl"><span class="material-symbols-outlined text-on-secondary text-3xl">headset_mic</span></div>
+          <div><h4 class="font-headline-md text-headline-md text-secondary">Atención por teléfono</h4><p class="font-body-md text-body-md text-on-surface-variant">Llámanos gratis al 0-800-4-4040 si necesitas ayuda.</p></div>
+        </div>
+        <div class="flex items-center gap-stack-md">
+          <div class="bg-secondary p-4 rounded-2xl"><span class="material-symbols-outlined text-on-secondary text-3xl">bolt</span></div>
+          <div><h4 class="font-headline-md text-headline-md text-secondary">Proceso Simple</h4><p class="font-body-md text-body-md text-on-surface-variant">Formularios diseñados para ser entendidos por todos.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+    <div class="bg-primary text-on-primary p-stack-lg rounded-[2rem] flex flex-col items-center text-center gap-stack-md relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-tertiary via-transparent to-transparent"></div>
+      <h2 class="font-headline-lg text-headline-lg relative z-10">¿Listo para presentar tu reclamo?</h2>
+      <p class="font-body-lg text-body-lg max-w-2xl relative z-10 text-on-primary/80">Te tomará menos de 10 minutos. Estamos aquí para guiarte en cada paso del camino.</p>
+      <button class="bg-tertiary text-on-tertiary px-12 py-5 rounded-full font-bold text-headline-md shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10" onclick="document.getElementById('categorias').scrollIntoView({behavior:'smooth'})">Iniciar Reclamo Ahora</button>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop bg-secondary text-on-primary border-t-4 border-tertiary">
+  <div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-start gap-gutter">
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2"><span class="material-symbols-outlined text-tertiary text-3xl">shield</span><h2 class="font-headline-md text-headline-md text-on-primary">Indecopi</h2></div>
+      <p class="font-body-md text-body-md text-on-primary/70 max-w-md">Instituto Nacional de Defensa de la Competencia y de la Protección de la Propiedad Intelectual.</p>
+      <p class="font-label-sm text-label-sm text-on-primary/60">© 2026 Indecopi · Todos los derechos reservados</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md md:gap-gutter">
+      <div class="flex flex-col gap-2">
+        <span class="text-label-md text-tertiary uppercase tracking-wider">Ayuda Directa</span>
+        <a class="text-on-primary/80 hover:text-tertiary text-body-md flex items-center gap-2" href="tel:080044040"><span class="material-symbols-outlined text-base">call</span> Línea Gratuita: 0-800-4-4040</a>
+        <a class="text-on-primary/80 hover:text-tertiary text-body-md flex items-center gap-2" href="#"><span class="material-symbols-outlined text-base">chat</span> Chat en Vivo</a>
+      </div>
+      <div class="flex flex-col gap-2">
+        <span class="text-label-md text-tertiary uppercase tracking-wider">Enlaces Útiles</span>
+        <a class="text-on-primary/80 hover:text-tertiary text-body-md" href="#">Términos y Condiciones</a>
+        <a class="text-on-primary/80 hover:text-tertiary text-body-md" href="#">Política de Privacidad</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CHAT FLOTANTE ============ -->
+<div class="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-4 w-full max-w-[380px] pointer-events-none">
+  <div class="hidden bg-secondary text-on-secondary p-6 shadow-xl chat-bubble border border-white/10 pointer-events-auto" id="chat-window">
+    <div class="flex items-start gap-4">
+      <div class="bg-primary p-2 rounded-full flex-shrink-0"><span class="material-symbols-outlined text-white fill">smart_toy</span></div>
+      <div><p class="font-bold text-lg mb-2">¡Hola! Soy tu asistente.</p><p class="text-body-md opacity-90 leading-relaxed">Estoy aquí para guiarte. Elige una categoría para empezar tu reclamo, o mira el video tutorial.</p></div>
+      <button class="text-white/50 hover:text-white" onclick="toggleChat()" aria-label="Cerrar chat"><span class="material-symbols-outlined">close</span></button>
+    </div>
+  </div>
+  <button class="bg-tertiary text-on-tertiary w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border-4 border-white pointer-events-auto relative" onclick="toggleChat()" aria-label="Abrir chat de ayuda">
+    <span class="material-symbols-outlined text-3xl">forum</span>
+    <span class="absolute -top-1 -right-1 w-4 h-4 bg-error rounded-full border-2 border-white" id="chat-dot"></span>
+  </button>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  // Sombra reforzada del header al hacer scroll
+  window.addEventListener("scroll", function () {
+    document.getElementById("topbar").classList.toggle("shadow-xl", window.scrollY > 20);
+  });
+</script>
+</body>
+</html>
