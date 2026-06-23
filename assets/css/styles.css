@@ -1,0 +1,249 @@
+/* ============================================================
+   Reclama Virtual — INDECOPI
+   Utilidades compartidas (lo que no cubre Tailwind)
+   ============================================================ */
+
+:root {
+  --maroon: #c40043;
+  --navy: #001e40;
+  --orange: #ff8934;
+}
+
+body {
+  font-family: 'Public Sans', sans-serif;
+}
+
+/* Iconos Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Sombras suaves */
+.soft-card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 5, 17, 0.06); }
+.custom-shadow    { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+
+/* Hover con elevación */
+.hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.hover-lift:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px -5px rgba(196, 0, 67, 0.18);
+}
+
+/* Anillo de foco accesible (4px) */
+.glow-focus:focus-within { box-shadow: 0 0 0 4px rgba(255, 137, 52, 0.4); }
+
+/* Selección activa de tarjetas/toggles.
+   !important para ganarle a las utilidades de Tailwind (el CDN Play
+   inyecta su <style> después de este archivo en el <head>). */
+.active-selection {
+  border: 3px solid var(--maroon) !important;
+  background-color: #fff1f2 !important;
+  box-shadow: 0 4px 16px rgba(196, 0, 67, 0.12);
+}
+
+/* Ocultar scrollbar (pasos horizontales) */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Burbuja de chat */
+.chat-bubble { border-radius: 24px 24px 4px 24px; }
+
+/* Tarjeta de cristal */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- Animaciones ---------- */
+.animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.check-anim { animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+@keyframes bounceIn {
+  0%   { transform: scale(0);   opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.modal-in { animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Confeti (pantalla de éxito) */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Transición genérica de pantallas */
+.fade-section { animation: fadeIn 0.4s ease-out forwards; }
+
+/* ============================================================
+   Chat IA — FAB con pulso e indicador "escribiendo"
+   ============================================================ */
+.chat-fab-pulse { position: relative; }
+.chat-fab-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 3px solid #ff8934;
+  opacity: 0;
+  animation: fabPulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes fabPulse {
+  0%   { transform: scale(1);    opacity: 0.7; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.typing-dots { display: inline-flex; gap: 4px; align-items: center; }
+.typing-dots span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #8f6f71;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40%           { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ============================================================
+   Tooltips de términos técnicos (glosario)
+   ============================================================ */
+.term { display: inline; }
+.term .tip { vertical-align: middle; margin-left: 2px; }
+.tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--navy);
+  cursor: help;
+  line-height: 0;
+}
+.tip .material-symbols-outlined { font-size: 18px; }
+.tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: max-content;
+  max-width: 260px;
+  white-space: normal;
+  background: #001e40;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 5, 17, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 80;
+  pointer-events: none;
+}
+.tip::before {
+  content: "";
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  border: 6px solid transparent;
+  border-top-color: #001e40;
+  margin-bottom: -6px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 80;
+}
+.tip:hover::after, .tip:focus-visible::after, .tip.open::after,
+.tip:hover::before, .tip:focus-visible::before, .tip.open::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   Comprobante (template que se exporta a PNG con html-to-image)
+   Ancho fijo, estilos propios e independientes de Tailwind.
+   ============================================================ */
+#comprobante-template { position: absolute; left: -9999px; top: 0; }
+.comprobante {
+  width: 820px;
+  background: #ffffff;
+  font-family: 'Public Sans', sans-serif;
+  color: #191c1e;
+  box-sizing: border-box;
+  border: 1px solid #e4bdc0;
+}
+.comprobante * { box-sizing: border-box; }
+.comprobante .cmp-head {
+  background: linear-gradient(135deg, #c40043 0%, #9e0036 100%);
+  color: #fff;
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.comprobante .cmp-head img { height: 52px; width: auto; filter: brightness(0) invert(1); }
+.comprobante .cmp-head .cmp-title { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.85; font-weight: 700; }
+.comprobante .cmp-head .cmp-sub { font-size: 26px; font-weight: 800; line-height: 1.1; margin-top: 2px; }
+.comprobante .cmp-body { padding: 32px 40px 8px; }
+.comprobante .cmp-exp {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fdeef3; border: 1px solid #f3c6d4; border-radius: 16px;
+  padding: 20px 24px; margin-bottom: 28px;
+}
+.comprobante .cmp-exp .lbl { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #8f6f71; font-weight: 700; }
+.comprobante .cmp-exp .num { font-size: 34px; font-weight: 800; color: #c40043; letter-spacing: -0.01em; }
+.comprobante .cmp-badge {
+  background: #1b7a34; color: #fff; font-weight: 700; font-size: 14px;
+  padding: 8px 16px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px;
+}
+.comprobante .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
+.comprobante .cmp-field { padding-bottom: 12px; border-bottom: 1px solid #eceef1; }
+.comprobante .cmp-field.full { grid-column: 1 / -1; }
+.comprobante .cmp-field .k { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #8f6f71; font-weight: 700; margin-bottom: 4px; }
+.comprobante .cmp-field .v { font-size: 16px; font-weight: 600; color: #191c1e; word-break: break-word; }
+.comprobante .cmp-field .v.muted { font-weight: 400; color: #44474e; }
+.comprobante .cmp-foot {
+  margin-top: 24px; padding: 22px 40px;
+  background: #001e40; color: #fff;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.comprobante .cmp-foot .ttl { font-weight: 800; font-size: 15px; color: #ff8934; }
+.comprobante .cmp-foot .line { font-size: 13px; opacity: 0.9; }
+.comprobante .cmp-seal {
+  width: 84px; height: 84px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.35);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; line-height: 1.2;
+  text-transform: uppercase; flex-shrink: 0;
+}

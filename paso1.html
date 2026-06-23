@@ -104,13 +104,13 @@
         <div class="space-y-2">
           <label class="block font-bold text-on-surface">¿Qué pasó exactamente? <span class="text-primary">*</span></label>
           <p class="text-helper-text text-on-surface-variant">Describe el problema con tus propias palabras. Sé lo más claro posible.</p>
-          <div class="glow-focus rounded-lg transition-all"><textarea data-k="queReclamo" data-counter="cnt1" maxlength="4000" rows="5" placeholder="Ej: Compré una licuadora hace 3 días y dejó de funcionar al primer uso. Fui a la tienda a pedir el cambio pero me dijeron que no podían ayudarme..." class="w-full rounded-lg border-2 border-outline-variant bg-white p-5 text-body-lg focus:border-primary focus:ring-0 transition-colors outline-none"></textarea></div>
+          <div class="glow-focus rounded-lg transition-all"><textarea data-k="queReclamo" data-counter="cnt1" maxlength="4000" rows="5" placeholder="Ej: Compré una licuadora el 15 de marzo y a los 3 días dejó de funcionar. Fui a la tienda a pedir el cambio y me dijeron que no podían ayudarme." class="w-full rounded-lg border-2 border-outline-variant bg-white p-5 text-body-lg focus:border-primary focus:ring-0 transition-colors outline-none"></textarea></div>
           <div class="flex justify-end"><span class="text-label-uppercase text-outline" id="cnt1">4000 caracteres restantes</span></div>
         </div>
         <div class="space-y-2">
-          <label class="block font-bold text-on-surface">¿Qué quieres que haga la empresa? <span class="text-primary">*</span></label>
+          <label class="font-bold text-on-surface"><span class="term">¿Qué quieres que haga la empresa? <button type="button" class="tip" aria-label="Qué es una medida correctiva" data-tip="Se llama «medida correctiva»: es lo que pides que la empresa haga para resolver tu caso (devolución del dinero, cambio del producto, reparación, etc.)."><span class="material-symbols-outlined">info</span></button></span> <span class="text-primary">*</span></label>
           <p class="text-helper-text text-on-surface-variant">Por ejemplo: cambio del producto, devolución del dinero, reparación, etc.</p>
-          <div class="glow-focus rounded-lg transition-all"><textarea data-k="quePido" data-counter="cnt2" maxlength="3000" rows="4" placeholder="Ej: Solicito la devolución total de mi dinero." class="w-full rounded-lg border-2 border-outline-variant bg-white p-5 text-body-lg focus:border-primary focus:ring-0 transition-colors outline-none"></textarea></div>
+          <div class="glow-focus rounded-lg transition-all"><textarea data-k="quePido" data-counter="cnt2" maxlength="3000" rows="4" placeholder="Ej: Solicito la devolución total de mi dinero o el cambio por un producto nuevo." class="w-full rounded-lg border-2 border-outline-variant bg-white p-5 text-body-lg focus:border-primary focus:ring-0 transition-colors outline-none"></textarea></div>
           <div class="flex justify-end"><span class="text-label-uppercase text-outline" id="cnt2">3000 caracteres restantes</span></div>
         </div>
       </div>
@@ -177,18 +177,8 @@
   <div class="flex gap-6 text-label-sm"><a class="text-on-primary/70 hover:text-tertiary" href="#">Privacidad</a><a class="text-on-primary/70 hover:text-tertiary" href="#">Términos</a><a class="text-on-primary/70 hover:text-tertiary" href="#">Accesibilidad</a></div>
 </footer>
 
-<!-- CHAT -->
-<div class="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-4 w-full max-w-[380px] pointer-events-none">
-  <div class="hidden bg-secondary text-on-secondary p-6 shadow-xl chat-bubble border border-white/10 pointer-events-auto" id="chat-window">
-    <div class="flex items-start gap-4">
-      <div class="bg-primary p-2 rounded-full flex-shrink-0"><span class="material-symbols-outlined text-white fill">smart_toy</span></div>
-      <div><p class="font-bold text-lg mb-2">¡Hola! Soy tu asistente.</p><p class="text-body-md opacity-90 leading-relaxed">Escribe lo que pasó con tus propias palabras, no te preocupes por los términos legales.</p></div>
-      <button class="text-white/50 hover:text-white" onclick="toggleChat()" aria-label="Cerrar chat"><span class="material-symbols-outlined">close</span></button>
-    </div>
-  </div>
-  <button class="bg-tertiary text-on-tertiary w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border-4 border-white pointer-events-auto" onclick="toggleChat()" aria-label="Abrir chat de ayuda"><span class="material-symbols-outlined text-3xl">forum</span></button>
-</div>
-
+<script src="assets/js/config.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/chat.js"></script>
 </body>
 </html>

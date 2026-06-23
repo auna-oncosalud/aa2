@@ -188,22 +188,9 @@
   </div>
 </footer>
 
-<!-- ============ CHAT FLOTANTE ============ -->
-<div class="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-4 w-full max-w-[380px] pointer-events-none">
-  <div class="hidden bg-secondary text-on-secondary p-6 shadow-xl chat-bubble border border-white/10 pointer-events-auto" id="chat-window">
-    <div class="flex items-start gap-4">
-      <div class="bg-primary p-2 rounded-full flex-shrink-0"><span class="material-symbols-outlined text-white fill">smart_toy</span></div>
-      <div><p class="font-bold text-lg mb-2">¡Hola! Soy tu asistente.</p><p class="text-body-md opacity-90 leading-relaxed">Estoy aquí para guiarte. Elige una categoría para empezar tu reclamo, o mira el video tutorial.</p></div>
-      <button class="text-white/50 hover:text-white" onclick="toggleChat()" aria-label="Cerrar chat"><span class="material-symbols-outlined">close</span></button>
-    </div>
-  </div>
-  <button class="bg-tertiary text-on-tertiary w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border-4 border-white pointer-events-auto relative" onclick="toggleChat()" aria-label="Abrir chat de ayuda">
-    <span class="material-symbols-outlined text-3xl">forum</span>
-    <span class="absolute -top-1 -right-1 w-4 h-4 bg-error rounded-full border-2 border-white" id="chat-dot"></span>
-  </button>
-</div>
-
+<script src="assets/js/config.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/chat.js"></script>
 <script>
   // Sombra reforzada del header al hacer scroll
   window.addEventListener("scroll", function () {
