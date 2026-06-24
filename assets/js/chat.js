@@ -15,25 +15,67 @@
     "los ciudadanos registran reclamos de consumo. PERSONALIDAD: profesional y confiable, pero " +
     "cercano y amigable; transmites calma y seguridad para reducir la ansiedad de quien reclama. " +
     "Te presentas como Carlos la primera vez y hablas en primera persona ('yo te ayudo'). " +
-    "Usas un trato cordial de 'tú' y algún emoji con moderación (1-2 por mensaje, p. ej. 😊 ✅ 📞) " +
-    "sin exagerar ni sonar informal de más. ESTILO: lenguaje MUY simple (evita tecnicismos; si usas " +
-    "uno, explícalo en una frase), respuestas cortas (2-5 frases), cálidas y concretas. " +
-    "MISIÓN: guiar el proceso de 3 pasos (1. Cuéntanos tu reclamo, 2. Identifica al reclamado, " +
-    "3. Tus datos), ayudar a redactar qué pasó y qué solicita (medida correctiva) e identificar a la " +
-    "empresa. LÍMITES: nunca inventes números de expediente, montos ni plazos legales que no conozcas; " +
+    "Usas un trato cordial de 'tú'. " +
+    "FORMATO Y ESTILO (IMPORTANTE): sé MUY CONCISO, responde en 1-3 frases cortas; NO te sobre-expliques " +
+    "para no aburrir al usuario. Usa lenguaje simple (evita tecnicismos; si usas uno, explícalo en pocas " +
+    "palabras). Resalta lo clave con **negritas** (formato markdown de doble asterisco). Usa 1-2 emojis " +
+    "con moderación (p. ej. 😊 ✅ 📞). " +
+    "CONOCIMIENTO DE LOS PASOS (úsalo para orientar según dónde esté el usuario): " +
+    "Paso 1 'Cuéntanos tu reclamo' = cómo y cuándo compró, si ya avisó a la empresa, **qué pasó**, " +
+    "**qué solicita** (la medida correctiva: devolución, cambio o reparación), adjuntar boleta/evidencia " +
+    "y elegir la sede de INDECOPI. " +
+    "Paso 2 'Identifica al reclamado' = elegir si es **empresa** (persona jurídica, con RUC) o **persona " +
+    "natural** (con DNI), y poner su nombre/razón social y dirección. " +
+    "Paso 3 'Tus datos' = tipo y número de documento, nombres y apellidos, dirección, **correo y celular** " +
+    "(ahí se notifica el caso). Al enviar se genera un **número de expediente** y se descarga el comprobante. " +
+    "MISIÓN: guiar esos 3 pasos y ayudar a redactar qué pasó y qué solicita. " +
+    "LÍMITES: nunca inventes números de expediente, montos ni plazos legales que no conozcas; " +
     "ante una duda legal compleja deriva con seguridad a la línea gratuita " + CONTACTO.telefono +
     " o al correo " + CONTACTO.correo + ". No pidas datos sensibles innecesarios. " +
     "Mantén siempre un tono que inspire confianza institucional.";
 
-  // Historial en memoria (roles de Gemini: 'user' | 'model')
-  var messages = [];
   var panelAbierto = false;
-  var bienvenidaMostrada = false;
+  var HKEY = "carlosHistorial";        // historial persistente entre pasos
+  var SKEY = "carlosPasosSaludados";   // pasos ya saludados (evita repetir)
 
   function configurado() {
     var k = window.GEMINI_API_KEY;
     return !!k && k !== "PON_TU_API_KEY_AQUI" && k.trim().length > 10;
   }
+
+  /* ---------- Historial persistente (sessionStorage) ----------
+     Cada mensaje: { role:'user'|'model', html, plain } */
+  function getHist() { try { return JSON.parse(sessionStorage.getItem(HKEY)) || []; } catch (e) { return []; } }
+  function setHist(h) { try { sessionStorage.setItem(HKEY, JSON.stringify(h)); } catch (e) {} }
+  function pushMsg(role, html, plain) {
+    var h = getHist();
+    h.push({ role: role, html: html, plain: plain || stripHtml(html) });
+    setHist(h);
+    return h[h.length - 1];
+  }
+  function stripHtml(s) {
+    var d = document.createElement("div");
+    d.innerHTML = String(s);
+    return (d.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  /* ---------- Detección del paso actual ---------- */
+  function pasoActual() {
+    var p = (location.pathname || "").toLowerCase();
+    if (p.indexOf("paso1") >= 0) return "paso1";
+    if (p.indexOf("paso2") >= 0) return "paso2";
+    if (p.indexOf("paso3") >= 0) return "paso3";
+    if (p.indexOf("exito") >= 0) return "exito";
+    return "landing";
+  }
+
+  // Mensajes proactivos por paso (concisos y con negritas)
+  var STEP_MSG = {
+    paso1: "📝 Estás en el <strong>Paso 1: Cuéntanos tu reclamo</strong>. Describe <strong>qué pasó</strong> y <strong>qué solicitas</strong> (tu medida correctiva). Si te trabas, dímelo y lo redactamos juntos. 😊",
+    paso2: "🏢 <strong>Paso 2: Identifica al reclamado</strong>. Indica la <strong>empresa o persona</strong> contra la que reclamas. ¿No tienes el RUC? Escribe el nombre y te ayudo.",
+    paso3: "🙋 <strong>Paso 3: Tus datos</strong>. Completa tu <strong>documento y contacto</strong> para poder notificarte. ¡Ya casi terminas! ✅",
+    exito: "🎉 <strong>¡Listo, lo lograste!</strong> Tu reclamo fue enviado. Guarda tu <strong>número de expediente</strong> y descarga tu comprobante. ¿Te ayudo con algo más?"
+  };
 
   function escapeHtml(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -71,13 +113,13 @@
       '<div id="chat-teaser" class="hidden fixed bottom-24 right-4 sm:right-6 z-[65] w-[260px] bg-white rounded-xl shadow-2xl border border-outline-variant p-4 chat-bubble cursor-pointer">' +
         '<button id="teaser-close" class="absolute top-2 right-2 text-on-surface-variant/50 hover:text-on-surface-variant" aria-label="Cerrar"><span class="material-symbols-outlined text-base">close</span></button>' +
         '<div class="flex items-start gap-3"><div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-white fill text-xl">support_agent</span></div>' +
-        '<p class="text-body-md text-on-surface leading-snug">👋 ¡Hola! Soy <strong>Carlos Pérez</strong>, tu asesor. ¿Necesitas ayuda con tu reclamo? Escríbeme, estoy para guiarte. 😊</p></div>' +
+        '<p id="teaser-text" class="text-body-md text-on-surface leading-snug">👋 ¡Hola! Soy <strong>Carlos Pérez</strong>, tu asesor. ¿Necesitas ayuda con tu reclamo? Escríbeme, estoy para guiarte. 😊</p></div>' +
       '</div>' +
       // FAB
       '<button id="chat-fab" class="fixed bottom-6 right-4 sm:right-6 z-[60] flex items-center gap-3 bg-tertiary text-on-tertiary h-16 pl-5 pr-6 rounded-full shadow-2xl border-4 border-white hover:scale-105 active:scale-95 transition-all chat-fab-pulse" aria-label="Abrir asistente de ayuda">' +
         '<span class="material-symbols-outlined text-3xl">forum</span>' +
         '<span class="font-bold hidden sm:block whitespace-nowrap">¿Necesitas ayuda?</span>' +
-        '<span id="chat-fab-dot" class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">1</span>' +
+        '<span id="chat-fab-dot" class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-xs font-bold rounded-full items-center justify-center border-2 border-white" style="display:none">1</span>' +
       '</button>';
     document.body.appendChild(wrap);
 
@@ -102,12 +144,52 @@
       e.stopPropagation(); ocultarTeaser();
     });
 
-    // Teaser automático una vez por sesión
-    if (!sessionStorage.getItem("teaserVisto")) {
+    // Sembrar bienvenida la primera vez y pintar el historial acumulado
+    if (getHist().length === 0) addBienvenida();
+    renderHistorial();
+
+    // Mensaje proactivo del paso actual (una sola vez por paso en la sesión)
+    var nuevo = saludarPaso();
+
+    // Teaser/aviso: si hay mensaje nuevo del paso o es la primera vez en la sesión
+    if (!sessionStorage.getItem("teaserVisto") || nuevo) {
+      if (nuevo) {
+        var tt = document.getElementById("teaser-text");
+        if (tt) tt.innerHTML = "💬 <strong>Carlos Pérez</strong> te dejó un mensaje sobre este paso. Toca para verlo.";
+      }
       setTimeout(function () {
-        if (!panelAbierto) document.getElementById("chat-teaser").classList.remove("hidden");
-      }, 1500);
+        if (!panelAbierto) {
+          document.getElementById("chat-teaser").classList.remove("hidden");
+          mostrarDot();
+        }
+      }, nuevo ? 700 : 1500);
     }
+  }
+
+  /* ---------- Pintar todo el historial guardado ---------- */
+  function renderHistorial() {
+    var cont = document.getElementById("chat-messages");
+    cont.innerHTML = "";
+    getHist().forEach(function (m) { pintarBurbuja(m.role, m.html, true); });
+  }
+
+  /* ---------- Saludo proactivo según el paso (una vez por sesión) ---------- */
+  function saludarPaso() {
+    var step = pasoActual();
+    if (step === "landing" || !STEP_MSG[step]) return false;
+    var saludados;
+    try { saludados = JSON.parse(sessionStorage.getItem(SKEY)) || []; } catch (e) { saludados = []; }
+    if (saludados.indexOf(step) >= 0) return false;
+    saludados.push(step);
+    try { sessionStorage.setItem(SKEY, JSON.stringify(saludados)); } catch (e) {}
+    pushMsg("model", STEP_MSG[step]);
+    pintarBurbuja("model", STEP_MSG[step], true);
+    return true;
+  }
+
+  function mostrarDot() {
+    var dot = document.getElementById("chat-fab-dot");
+    if (dot && !panelAbierto) dot.style.display = "flex";
   }
 
   function ocultarTeaser() {
@@ -124,7 +206,8 @@
     document.getElementById("chat-fab").classList.add("hidden");
     var dot = document.getElementById("chat-fab-dot");
     if (dot) dot.style.display = "none";
-    if (!bienvenidaMostrada) mostrarBienvenida();
+    var cont = document.getElementById("chat-messages");
+    if (cont) cont.scrollTop = cont.scrollHeight;
     setTimeout(function () { document.getElementById("chat-input").focus(); }, 100);
   }
   function cerrarPanel() {
@@ -133,9 +216,8 @@
     document.getElementById("chat-fab").classList.remove("hidden");
   }
 
-  /* ---------- Mensaje de bienvenida + canales ---------- */
-  function mostrarBienvenida() {
-    bienvenidaMostrada = true;
+  /* ---------- Mensaje de bienvenida + canales (se guarda en historial) ---------- */
+  function addBienvenida() {
     var html =
       "👋 <strong>¡Hola! Soy Carlos Pérez, tu asesor de Reclama Virtual.</strong><br>" +
       "Estoy aquí para acompañarte paso a paso en tu reclamo, con toda tranquilidad. 😊" +
@@ -146,7 +228,7 @@
         '<a href="tel:' + CONTACTO.telefono.replace(/[^0-9]/g, "") + '" class="flex items-center gap-2 text-primary font-bold hover:underline"><span class="material-symbols-outlined text-base">call</span>' + CONTACTO.telefono + ' (gratis)</a>' +
         '<a href="mailto:' + CONTACTO.correo + '" class="flex items-center gap-2 text-primary font-bold hover:underline"><span class="material-symbols-outlined text-base">mail</span>' + CONTACTO.correo + '</a>' +
       '</div>';
-    pintarBurbuja("model", html, true);
+    pushMsg("model", html, "Hola, soy Carlos Pérez, tu asesor de Reclama Virtual de INDECOPI. Te guío en tu reclamo.");
   }
 
   /* ---------- Render de burbujas ---------- */
@@ -187,8 +269,8 @@
     if (!texto) return;
     input.value = "";
     input.style.height = "auto";
-    pintarBurbuja("user", texto);
-    messages.push({ role: "user", text: texto });
+    pintarBurbuja("user", formato(texto), true);
+    pushMsg("user", formato(texto), texto);
     responder();
   }
 
@@ -206,24 +288,25 @@
           "pero puedes recibir atención inmediata por estos canales:<br>" +
           '<a href="tel:' + CONTACTO.telefono.replace(/[^0-9]/g, "") + '" class="flex items-center gap-2 text-primary font-bold hover:underline mt-2"><span class="material-symbols-outlined text-base">call</span>' + CONTACTO.telefono + ' (gratis)</a>' +
           '<a href="mailto:' + CONTACTO.correo + '" class="flex items-center gap-2 text-primary font-bold hover:underline"><span class="material-symbols-outlined text-base">mail</span>' + CONTACTO.correo + '</a>';
+        pushMsg("model", msg);
         pintarBurbuja("model", msg, true);
         sendBtn.disabled = false;
       }, 600);
       return;
     }
 
-    enviarAGemini(messages)
+    enviarAGemini()
       .then(function (respuesta) {
         quitarTyping();
-        messages.push({ role: "model", text: respuesta });
-        pintarBurbuja("model", respuesta);
+        pushMsg("model", formato(respuesta), respuesta);
+        pintarBurbuja("model", formato(respuesta), true);
       })
       .catch(function (err) {
         quitarTyping();
         console.error("Gemini error:", err);
-        pintarBurbuja("model",
-          "Ups, no pude conectarme en este momento. 😕 Inténtalo de nuevo o comunícate al " +
-          "<strong>" + CONTACTO.telefono + "</strong> (gratis) o " + CONTACTO.correo + ".", true);
+        var msg = "Ups, no pude conectarme en este momento. 😕 Inténtalo de nuevo o comunícate al " +
+          "<strong>" + CONTACTO.telefono + "</strong> (gratis) o " + CONTACTO.correo + ".";
+        pintarBurbuja("model", msg, true);
       })
       .finally(function () {
         sendBtn.disabled = false;
@@ -231,19 +314,33 @@
   }
 
   /* ---------- Llamada a Gemini (única función de red) ----------
+     Construye los 'contents' desde el historial persistente.
      Para producción: reemplaza el cuerpo por un fetch a tu backend
      proxy (p.ej. POST /api/chat con { messages }) y NO expongas la key. */
-  function enviarAGemini(historial) {
+  function enviarAGemini() {
     var model = window.GEMINI_MODEL || "gemini-3.1-flash-lite";
     var url = "https://generativelanguage.googleapis.com/v1beta/models/" +
       model + ":generateContent?key=" + encodeURIComponent(window.GEMINI_API_KEY);
 
+    // Mapear historial → contents; recortar al primer turno 'user' (Gemini exige iniciar en user)
+    var items = getHist().filter(function (m) { return m.role === "user" || m.role === "model"; });
+    while (items.length && items[0].role !== "user") items.shift();
+    // Fusionar turnos consecutivos del mismo rol (Gemini requiere alternancia user/model)
+    var contents = [];
+    items.forEach(function (m) {
+      var txt = m.plain || stripHtml(m.html);
+      var last = contents[contents.length - 1];
+      if (last && last.role === m.role) {
+        last.parts[0].text += "\n" + txt;
+      } else {
+        contents.push({ role: m.role, parts: [{ text: txt }] });
+      }
+    });
+
     var body = {
       systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-      contents: historial.map(function (m) {
-        return { role: m.role, parts: [{ text: m.text }] };
-      }),
-      generationConfig: { temperature: 0.6, maxOutputTokens: 800, topP: 0.9 }
+      contents: contents,
+      generationConfig: { temperature: 0.6, maxOutputTokens: 400, topP: 0.9 }
     };
 
     return fetch(url, {
